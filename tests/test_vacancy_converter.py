@@ -70,3 +70,27 @@ class TestVacancyConverter(unittest.TestCase):
         """Тест работы с пустыми списками"""
         self.assertEqual(VacancyConverter.vacancies_to_dicts([]), [])
         self.assertEqual(VacancyConverter.dicts_to_vacancies([]), [])
+
+    def test_none_data(self):
+        """Тест обработки None данных"""
+        self.assertEqual(VacancyConverter.vacancies_to_dicts([]), [])
+        self.assertEqual(VacancyConverter.dicts_to_vacancies([]), [])
+
+    def test_vacancy_with_missing_fields(self):
+        """Тест конвертации с отсутствующими полями"""
+        data = [{
+            'title': 'Developer',
+            'url': 'https://hh.ru/vacancy/789',
+            'salary_from': None,
+            'salary_to': None,
+            'currency': None,
+            'requirements': None
+        }]
+
+        result = VacancyConverter.dicts_to_vacancies(data)
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0].title, "Developer")
+        self.assertEqual(result[0].salary_from, 0)
+        self.assertEqual(result[0].salary_to, 0)
+        self.assertEqual(result[0].currency, 'не указана')
+        self.assertEqual(result[0].requirements, 'Не указаны')
