@@ -179,11 +179,14 @@ def format_salary_string(salary_from: int, salary_to: int, currency: str) -> str
     :return: Отформатированная строка зарплаты
     :rtype: str
     """
-    if salary_from and salary_to:
+    has_from = salary_from is not None and salary_from != 0
+    has_to = salary_to is not None and salary_to != 0
+
+    if has_from and has_to:
         return f"{salary_from} - {salary_to} {currency}"
-    elif salary_from:
+    elif has_from:
         return f"от {salary_from} {currency}"
-    elif salary_to:
+    elif has_to:
         return f"до {salary_to} {currency}"
     else:
         return "не указана"
